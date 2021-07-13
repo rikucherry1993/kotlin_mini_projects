@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         val split = equation.toCharArray()
         val calUnits = ArrayList<String>()
 
-        //Combine chars into numbers or left it as an operator, then store them into an array-list
+        //Combine chars into numbers or leave it as an operator, then store them into an array-list
         //the result would be like {-, 2.03, * , 5.23}
         var unit: String = ""
         for (i in split.indices) {
