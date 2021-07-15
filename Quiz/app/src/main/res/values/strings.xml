@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">QuizApp</string>
+
+    <string name="text_congratulations">恭喜你呀！%1$s小天才</string>
+    <string name="text_score">您在%1$d中答对了%2$d题！！</string>
+    <string name="key_preference">com.rikucherry.quiz.preference</string>
+
 </resources>

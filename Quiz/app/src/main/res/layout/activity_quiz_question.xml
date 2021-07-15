@@ -44,7 +44,7 @@
                 android:id="@+id/progress_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:max="3"
+                android:max="5"
                 android:progress="0"
                 android:minHeight="50dp"
                 android:indeterminate="false"

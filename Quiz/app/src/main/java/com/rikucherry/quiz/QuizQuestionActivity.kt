@@ -1,5 +1,6 @@
 package com.rikucherry.quiz
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -17,12 +18,15 @@ class QuizQuestionActivity : AppCompatActivity(), OnClickListener {
     private var mCurrentPosition: Int = 1
     private var mQuestionList: ArrayList<Question>? = null
     private var mSelectedOptionPosition: Int = 0
+    private var mCorrectAnswer: Int = 0
+    private var mQuestionCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_question)
 
         mQuestionList = Constants.getQuestions()
+        mQuestionCount = mQuestionList!!.size
         setQuestion()
 
         tv_option1.setOnClickListener(this)
@@ -81,6 +85,12 @@ class QuizQuestionActivity : AppCompatActivity(), OnClickListener {
                     setQuestion()
                 } else -> {
                     Toast.makeText(this, "恭喜您完成问答！", Toast.LENGTH_SHORT).show()
+
+                    var intent = Intent(this, ResultActivity::class.java)
+                    intent.putExtra(Constants.INTENT_QUIZ_TOTAL, mQuestionCount)
+                    intent.putExtra(Constants.INTENT_QUIZ_CORRECT, mCorrectAnswer)
+                    startActivity(intent)
+                    finish()
                 }
             }
         } else {
@@ -88,6 +98,8 @@ class QuizQuestionActivity : AppCompatActivity(), OnClickListener {
             val question = mQuestionList?.get(mCurrentPosition - 1)
             if(question!!.correctAnswer != mSelectedOptionPosition) {
                 answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+            } else {
+                mCorrectAnswer++
             }
             answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 

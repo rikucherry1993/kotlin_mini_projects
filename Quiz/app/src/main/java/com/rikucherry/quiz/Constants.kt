@@ -2,6 +2,10 @@ package com.rikucherry.quiz
 
 object Constants{
 
+    const val INTENT_QUIZ_TOTAL = "INTENT_QUIZ_TOTAL"
+    const val INTENT_QUIZ_CORRECT = "INTENT_QUIZ_CORRECT"
+    const val SP_USER_NAME = "SP_USER_NAME"
+
     // return an arraylist that holds bunch of questions
     fun getQuestions(): ArrayList<Question> {
         val questionList = ArrayList<Question>()
@@ -33,9 +37,29 @@ object Constants{
             2
         )
 
+        val que4 = Question(4, "请问这是哪国国旗?",
+            R.drawable.ic_flag_of_belgium,
+            "德国",
+            "法国",
+            "意大利",
+            "比利时",
+            4
+        )
+
+        val que5 = Question(5, "请问这是哪国国旗?",
+            R.drawable.ic_flag_of_new_zealand,
+            "澳大利亚",
+            "英国",
+            "新西兰",
+            "巴西",
+            3
+        )
+
         questionList.add(que1)
         questionList.add(que2)
         questionList.add(que3)
+        questionList.add(que4)
+        questionList.add(que5)
         return questionList
     }
 
