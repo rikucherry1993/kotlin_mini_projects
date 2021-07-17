@@ -233,11 +233,11 @@ class MainActivity : AppCompatActivity() {
                     val bytes = ByteArrayOutputStream()
                     mBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
                     val file = File(
-                        externalCacheDir!!.absoluteFile.toString()
+//                        externalCacheDir!!.absoluteFile.toString()
+                        "/storage/emulated/0/DCIM/Camera"
                                 + File.separator + "FreeDrawingApp_"
                                 + System.currentTimeMillis() / 1000 + ".png"
                     )
-
                     val fo = FileOutputStream(file)
                     fo.write(bytes.toByteArray())
                     fo.close()
