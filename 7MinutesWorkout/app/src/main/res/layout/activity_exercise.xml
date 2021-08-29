@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Exercise">
+    android:background="@color/white"
+    tools:context=".ExerciseActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/action_bar_exercise"
@@ -16,5 +17,64 @@
         app:titleTextColor="@color/black"
         app:theme="@style/ToolbarTheme"
         />
+
+    <LinearLayout
+        android:id="@+id/ll_rest_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/action_bar_exercise"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GET READY FOR"
+            android:textColor="@color/green_dark"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_circular_accent_border">
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circular_progress_bar_gray"
+                android:indeterminate="false"
+                android:max="10"
+                android:progress="100"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:rotation="-90"
+                />
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/item_circular_accent_background">
+
+                <TextView
+                    android:id="@+id/tv_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    tools:text="10"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
 
 </RelativeLayout>
