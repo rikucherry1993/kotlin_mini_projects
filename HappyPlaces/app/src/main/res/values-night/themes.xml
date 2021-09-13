@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.HappyPlaces" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#96ceb4</item>
+        <item name="colorPrimaryVariant">#ff6f69</item>
+        <item name="colorOnPrimary">#ffeead </item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#88d8b0</item>
+        <item name="colorSecondaryVariant">#ffcc5c</item>
+        <item name="colorOnSecondary">#ff6f69</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
