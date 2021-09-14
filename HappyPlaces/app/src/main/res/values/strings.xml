@@ -9,4 +9,6 @@
     <string name="btn_text_save">SAVE</string>
     <string name="note_text_no_item">No Happy Places yet.</string>
     <string name="image_content_description">image</string>
+
+    <string name="google_maps_key">AIzaSyAO7OX8InGLTeST2GMgWEV9J0jsy6SOu4g</string>
 </resources>

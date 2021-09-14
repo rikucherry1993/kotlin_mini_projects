@@ -16,6 +16,10 @@ import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -44,6 +48,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
         private const val REQUEST_GALLERY = 1
         private const val REQUEST_IMAGE_CAPTURE = 2
         private const val IMAGE_DIRECTORY = "HappyPlacesImages"
+        private const val PLACE_AUTOCOMPLETE_REQUEST_CODE = 3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +60,10 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
         toolbar_add_place.setNavigationOnClickListener {
             setResult(RESULT_CANCELED)
             onBackPressed()
+        }
+
+        if (!Places.isInitialized()) {
+            Places.initialize(this@AddHappyPlaceActivity, resources.getString(R.string.google_maps_key))
         }
 
         dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -69,6 +78,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
         et_date.setOnClickListener(this)
         tv_add_image.setOnClickListener(this)
         btn_save.setOnClickListener(this)
+        et_location.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -138,6 +148,22 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
                     }
                 }
             }
+
+            R.id.et_location -> {
+                try {
+                    val fields = listOf(
+                        Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG,
+                        Place.Field.ADDRESS
+                    )
+                    // Start the autocomplete intent with a unique request code.
+                    val intent =
+                        Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                            .build(this@AddHappyPlaceActivity)
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
@@ -190,6 +216,11 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
                 e.printStackTrace()
                 Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()
             }
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE && resultCode == RESULT_OK) {
+            val place:Place = Autocomplete.getPlaceFromIntent(data!!)
+            et_location.setText(place.address)
+            latitude = place.latLng!!.latitude
+            longitude = place.latLng!!.longitude
         }
 
     }

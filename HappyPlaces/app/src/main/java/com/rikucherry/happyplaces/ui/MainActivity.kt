@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         getHappyPlaces()
-        TODO("Add swipe features")
+        //TODO: Add swipe features
     }
 
     private fun getHappyPlaces(){
