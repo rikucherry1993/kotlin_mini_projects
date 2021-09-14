@@ -31,12 +31,6 @@ class HappyPlaceDetailActivity : AppCompatActivity() {
             iv_place_image_detail.setImageURI(Uri.parse(model.image))
             tv_description.text = model.description
             tv_location.text = model.location
-
-        } else {
-
         }
-
-
-
     }
 }
