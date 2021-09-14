@@ -31,4 +31,9 @@
         <item name="boxStrokeColor">#ffcc5c</item>
         <item name="hintTextColor">#88d8b0</item>
     </style>
+
+    <style name="CustomToolbarStyle">
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:colorControlNormal">#FFFFFF</item>
+    </style>
 </resources>

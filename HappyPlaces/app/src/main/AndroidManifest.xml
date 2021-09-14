@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rikucherry.happyplaces">
-    
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HappyPlaces">
         <activity
-            android:name=".ui.AddHappyPlaceActivity"
+            android:name=".ui.HappyPlaceDetailActivity"
             android:screenOrientation="portrait"
-            android:label="ADD HAPPY PLACE"
             android:theme="@style/CustomNoActionBarTheme"
             android:exported="true" />
+        <activity
+            android:name=".ui.AddHappyPlaceActivity"
+            android:exported="true"
+            android:label="ADD HAPPY PLACE"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -29,8 +38,5 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-feature android:name="android.hardware.camera"
-        android:required="false" />
 
 </manifest>

@@ -53,6 +53,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar_add_place.setNavigationOnClickListener {
+            setResult(RESULT_CANCELED)
             onBackPressed()
         }
 
@@ -131,6 +132,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
                             this,
                             "The happy place details are saved successfully!",
                             Toast.LENGTH_SHORT).show()
+                            setResult(RESULT_OK)
                             finish() //back to main activity
                         }
                     }
@@ -177,13 +179,13 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageLocation = saveImage(imageBitmap)
-            iv_place_image.setImageBitmap(imageBitmap)
+            iv_place_image_add.setImageBitmap(imageBitmap)
 
         } else if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             try{
                 val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, data?.data)
                 imageLocation = saveImage(imageBitmap)
-                iv_place_image.setImageBitmap(imageBitmap)
+                iv_place_image_add.setImageBitmap(imageBitmap)
             } catch (e: IOException){
                 e.printStackTrace()
                 Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()

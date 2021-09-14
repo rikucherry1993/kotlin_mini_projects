@@ -2,7 +2,9 @@ package com.rikucherry.happyplaces.data
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import com.rikucherry.happyplaces.model.HappyPlaceModel
 
@@ -29,7 +31,7 @@ class Databasehandler(
 
     override fun onCreate(db: SQLiteDatabase?) {
         //create sql
-        val CREATE_HAPPY_PLACE_TABLE = ("CREATE TABLE" + TABLE_NAME + "("
+        val CREATE_HAPPY_PLACE_TABLE = ("CREATE TABLE " + TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_IMAGE + " TEXT,"
@@ -71,5 +73,36 @@ class Databasehandler(
 
         db.close() // Closing database connection
         return result
+    }
+
+    fun getHappyPlacesList(): ArrayList<HappyPlaceModel> {
+        val happyList = ArrayList<HappyPlaceModel>()
+        val selectQuery = "SELECT * FROM $TABLE_NAME"
+        val db = this.readableDatabase
+
+        try {
+            val cursor : Cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val place = HappyPlaceModel(
+                        cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                        cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(KEY_DATE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_LOCATION)),
+                        cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE)),
+                        cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE))
+                    )
+                    happyList.add(place)
+                } while (cursor.moveToNext())
+            }
+
+        } catch (e: SQLiteException) {
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+
+        return happyList
     }
 }
