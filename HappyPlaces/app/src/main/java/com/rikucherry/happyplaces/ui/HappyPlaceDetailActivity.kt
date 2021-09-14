@@ -1,5 +1,6 @@
 package com.rikucherry.happyplaces.ui
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,11 @@ class HappyPlaceDetailActivity : AppCompatActivity() {
             iv_place_image_detail.setImageURI(Uri.parse(model.image))
             tv_description.text = model.description
             tv_location.text = model.location
+            btn_map.setOnClickListener{
+                val intent = Intent(this, MapActivity::class.java)
+                intent.putExtra(MainActivity.EXTRA_PLACE_DETAILS, model)
+                startActivity(intent)
+            }
         }
     }
 }
