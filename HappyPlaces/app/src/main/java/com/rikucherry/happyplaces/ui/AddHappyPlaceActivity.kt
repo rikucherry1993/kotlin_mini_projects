@@ -1,4 +1,4 @@
-package com.rikucherry.happyplaces
+package com.rikucherry.happyplaces.ui
 
 import android.Manifest
 import android.app.AlertDialog
@@ -21,6 +21,9 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.rikucherry.happyplaces.R
+import com.rikucherry.happyplaces.data.Databasehandler
+import com.rikucherry.happyplaces.model.HappyPlaceModel
 import kotlinx.android.synthetic.main.activity_add_happy_place.*
 import java.io.File
 import java.io.FileOutputStream
@@ -32,6 +35,10 @@ import java.util.*
 class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
     private var calendar = Calendar.getInstance()
     private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    private var imageLocation: Uri? = null
+    private var latitude = 0.0
+    private var longitude = 0.0
+
 
     companion object {
         private const val REQUEST_GALLERY = 1
@@ -53,11 +60,14 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateInView()
+            updateDateInView() //update every time setting new date
         }
+
+        updateDateInView() //update with current time when activity is created
 
         et_date.setOnClickListener(this)
         tv_add_image.setOnClickListener(this)
+        btn_save.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -83,6 +93,48 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
                         1 -> shootPhotos()
                     }
                 }.show()
+            }
+            R.id.btn_save -> {
+                when {
+                    et_title.text.isNullOrEmpty() -> {
+                        Toast.makeText(this, "Please enter ${et_title.hint}", Toast.LENGTH_SHORT).show()
+                    }
+
+                    et_description.text.isNullOrEmpty() -> {
+                        Toast.makeText(this, "Please enter ${et_description.hint}", Toast.LENGTH_SHORT).show()
+                    }
+
+                    et_location.text.isNullOrEmpty() -> {
+                        Toast.makeText(this, "Please enter ${et_location.hint}", Toast.LENGTH_SHORT).show()
+                    }
+
+                    imageLocation == null -> {
+                        Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+                    } else -> {
+                        //save everything
+                        val happyPlaceModel = HappyPlaceModel(
+                            0,
+                            et_title.text.toString(),
+                            imageLocation.toString(),
+                            et_description.text.toString(),
+                            et_date.text.toString(),
+                            et_location.text.toString(),
+                            latitude,
+                            longitude
+                        )
+
+                        val dbHandler =  Databasehandler(this)
+                        val addDataResult = dbHandler.addHappyPlace(happyPlaceModel)
+
+                        if (addDataResult > 0) { //result would be -1 if failed
+                            Toast.makeText(
+                            this,
+                            "The happy place details are saved successfully!",
+                            Toast.LENGTH_SHORT).show()
+                            finish() //back to main activity
+                        }
+                    }
+                }
             }
         }
     }
@@ -124,13 +176,13 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            saveImage(imageBitmap)
+            imageLocation = saveImage(imageBitmap)
             iv_place_image.setImageBitmap(imageBitmap)
 
         } else if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             try{
                 val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, data?.data)
-                saveImage(imageBitmap)
+                imageLocation = saveImage(imageBitmap)
                 iv_place_image.setImageBitmap(imageBitmap)
             } catch (e: IOException){
                 e.printStackTrace()
